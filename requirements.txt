@@ -1,6 +1,8 @@
-fastapi
+fastapi==0.99.1
+fastapi_jwt_auth[asymmetric]
+pydantic==1.10.11 
+pydantic[email]
 uvicorn[standard]
-pymongo==3.11
+pymongo
 pymongo[srv]
-python-multipart
-pydantic-settings
+passlib[bcrypt]

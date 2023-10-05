@@ -9,6 +9,9 @@ from models.user import UserBaseSchema, VerifyUserSchema
 from typing import Annotated
 from bson import ObjectId
 from pymongo.collection import ReturnDocument
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 router = APIRouter()
 
@@ -16,6 +19,47 @@ base_table_name = "users"
 
 ACCESS_TOKEN_EXPIRES_IN = float(getEnv("ACCESS_TOKEN_EXPIRES_IN"))
 REFRESH_TOKEN_EXPIRES_IN = float(getEnv("REFRESH_TOKEN_EXPIRES_IN"))
+
+
+MAIL_HOST = "mail.gravity-gym.com"
+MAIL_PORT = 465
+MAIL_USERNAME = "support@gravity-gym.com"
+MAIL_PASSWORD = "Gr@vitygym/19"
+
+
+@router.get("/send-email")
+def sendEmail():
+    # Email configuration
+    sender_email = MAIL_USERNAME
+    receiver_email = "georgessaroufim@hotmail.com"
+    password = MAIL_PASSWORD
+
+    # Create the email content
+    subject = "Test Email"
+    body = "This is a test email sent using Python."
+
+    # Create the MIMEText object
+    msg = MIMEMultipart()
+    msg["From"] = sender_email
+    msg["To"] = receiver_email
+    msg["Subject"] = subject
+
+    msg.attach(MIMEText(body, "plain"))
+
+    # Connect to the SMTP server using SSL (Gmail's SMTP server)
+    try:
+        server = smtplib.SMTP_SSL(MAIL_HOST, MAIL_PORT)
+        # server.starttls()
+        # server.ehlo()
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, msg.as_string())
+        print("Email sent successfully!")
+    except Exception as e:
+        print("An error occurred:", str(e))
+    finally:
+        server.quit()
+
+    return server.debuglevel
 
 
 @router.post(

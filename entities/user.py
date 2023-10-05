@@ -5,6 +5,7 @@ def userEntity(user) -> dict:
         "last_name": user["last_name"],
         "email": user["email"],
         "role": user["role"],
+        "otp": user["otp"],
         "photo": user["photo"],
         "verified": user["verified"],
         "password": user["password"],

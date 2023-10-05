@@ -5,7 +5,6 @@ from bson.objectid import ObjectId
 
 
 class BookBaseSchema(BaseModel):
-    id: str | None = None
     title: str
     content: str
     category: str = ""
